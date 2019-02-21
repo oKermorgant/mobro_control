@@ -1,231 +1,273 @@
 \documentclass{ecnreport}
+\usepackage[export]{adjustbox}
+
 \setlength{\parindent}{0cm}
 
-\stud{Option Robotique, Control \& Robotics master}
-\topic{Advanced Robot Programming}
+\stud{Control \& Robotics master}
+\topic{Mobile Robots}
 
 \def\maze{\texttt{ecn::Maze}~}
 
 \begin{document}
 
-\inserttitle{Advanced Robot Programming  Labs \newline C++ Programming}
+\inserttitle{Mobile Robots lab}
 
-\insertsubtitle{Maze generation and solving}
+\insertsubtitle{Robot Control}
 
-\newcommand{\involves}[1]{
-\item {\bf C++ skills:} #1
-}
 
-\newcommand{\aitip}[1]{
-\item {\bf AI tips:} #1
-}
+\section{Content of this lab and expected work}
 
-\section{Content of this lab}
+The goal of this lab is to control a 2D mobile robot in order to follow a trajectory. Two mobile robots will be considered:
+\begin{itemize}
+ \item A 2-0 or unicycle robot, with two actuated, fixed wheels.
+ \item A 1-1 or bicycle-like robot, with two passive fixed wheels and an actuated, steering wheel.
+\end{itemize}
 
-In this lab you will use and modify existing code in order to generate and solve mazes. As shown in \Fig{maze2}, the goal is to generate 
-a maze of given dimensions (left picture) and to use a path planning algorithm to find the shortest path from the upper left to the lower right corners (right picture).
+Two control laws will be tested for each robot: static feedback and Lyapunov-based control.\\
 
+In addition, robustness of the control will be analyzed with regards to several practical issues:
+\begin{itemize}
+ \item Bad calibration, ie wrong dimensions of the robot model 
+ \item Non linearities, which are typically found with saturation on wheel velocities or angles.
+\end{itemize}
+
+The control laws will be tested in simulation with Matlab/Simulink.\\
+Trajectory generation is given and we assume a localization method is here and provides the current posture $(x,y,\theta)$  of the robot. 
+
+\section{Available tools}
+
+Two folders are available in the Matlab workspace, called \texttt{2-0} and \texttt{1-1}.
+Each folder contains a Matlab script file and a Simulink model. The figure below shows the 2-0 model:
 \begin{figure}[h]\centering
-\includegraphics[width=.4\linewidth]{maze} \quad \quad\includegraphics[width=.4\linewidth]{maze_cell}
-\caption{$51\times 75$ maze before (left) and after (right) path planning.}
-\label{maze2}
+ \includegraphics[width=.64\linewidth]{simulink}
 \end{figure}
 
-The lab was inspired by \link{https://www.youtube.com/watch?v=rop0W4QDOUI}{this Computerphile video}.\\
+\newpage
 
-We use the classical mix of Git repository and CMake to download and compile the project:
+Five main blocks appear:
+\begin{itemize}
+ \item \texttt{Trajectory}: Generates the trajectory. The \texttt{ref} output is a structure containing the desired position \texttt{xy}, desired velocity \texttt{xy\_dot} and desired acceleration \texttt{xy\_ddot}.
+ \item \texttt{diff\_drive}: The model of the robot, takes the control inputs and updates the state of the robot.
+ \item \texttt{static FeedBack}: Control block for static feedback, takes the reference and state and output the command.
+ \item \texttt{Lyapunov}: Control block for Lyapunov control, takes the reference and state and output the command.
+ \item \texttt{Control law switch}: Allows to use static feedback or Lyapunov control depending on the control choice.
+\end{itemize}
+
+The given script will generate a trajectory from waypoints, then run the simulation and plot the behavior of the robot.
+
+The parts to be modified are:
+\begin{itemize}
+ \item The content of the two control blocks
+ \item The parameters of the robot model, including saturation and uncertainty
+ \item If needed, the waypoint coordinates used to generate the trajectory, in order to test simpler or more complex trajectories.
+\end{itemize}
+
+Signals going through the reference and state should be decomposed by using a \texttt{Bus Selector} to retrieve the actual values:
+\begin{figure}[h]
+\begin{minipage}[c]{0.32\linewidth}
+\centering
+\includegraphics[height=0.4\linewidth, valign=c]{ref} \\ \footnotesize Reference to position, velocity and acceleration
+\end{minipage}
+\begin{minipage}[c]{0.32\linewidth}
+\centering
+\includegraphics[height=0.4\linewidth, valign=c]{state20} \\ \footnotesize 2-0 robot state to $(x, y, \theta)$
+\end{minipage}
+\begin{minipage}[c]{0.32\linewidth}
+\centering
+\includegraphics[height=0.4\linewidth, valign=c]{state11} \\ \footnotesize 1-1 robot state to $(x,y,\theta,\beta)$
+\end{minipage}
+\end{figure}
+
+\newpage
+
+\section{Differential drive 2-0 robot}
+
+The figure below recalls notations and kinematic model of a classical 2-0 mobile robot.
+
+\begin{figure}[ht]
+\begin{minipage}[t]{0.4\linewidth}
+\centering
+\includegraphics[%scale=1
+                 width=0.8\linewidth, valign=c]{model20}
+\end{minipage}%
+\begin{minipage}[t]{0.6\linewidth}
+{\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ll}
+ State & $(x, y, \theta)$ \\ 
+ Parameters  & (base, radius) \\
+ Control & $\u = (v, \omega)$ \\
+ Kinematic model & 
+ $ \left\{\begin{array}{l}
+  \dot x = v \cos \theta \\
+  \dot y = v \sin \theta \\
+  \dot \theta =  \omega \\
+ \end{array} \right.$
+\end{tabular}}
+\end{minipage}
+\end{figure}
+
+In practice the control input is mapped to wheel velocities through the base (wheel distance) and wheel radius parameters. The corresponding values can be changed by double-clicking the \texttt{diff\_drive} subsystem as shown in the figure below. Uncertainty on these parameters is initially set to 0.  \\
+
+Non-linearity appears in the 2-0 model when we consider limitation on the wheel velocities. This parameter can also be tuned in the subsystem, it is initially set to a high value in order to reduce its impact.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.4\linewidth]{param20}
+\caption{Parameters for the differential drive robot}
+\end{figure}
+
+\subsection{Static feedback}
+
+For static feedback, we want to control the position $\x_p = (x_p,y_p)$ of a point located at $d > 0$ on the x-axis of the robot.
+It can be written as: 
 \begin{center}
- \texttt{mkdir build} $\rightarrow$ \texttt{cd build} $\rightarrow$ \texttt{cmake ..} $\rightarrow$ \texttt{make}
+ $\left\{\begin{array}{ll}
+         x_p &= x + d.\cos\theta \\
+         y_p &= x + d.\sin\theta 
+        \end{array}\right.$
 \end{center}
-The program can the be launched.
+The first step is to link $\dot \x_p$ to the control input: $\dot \x_p = \K(\theta).\u$.
+\\
 
-
-\section{Required work}
-
-Four programs have to be created: 
-\begin{enumerate}
- \item Maze generation
- \item Maze solving through A* with motions limited to 1 cell (already quite written)
- \item Maze solving through A* with motions using straight lines
- \item Maze solving through A* with motions using corridors
-\end{enumerate}
-
-As in many practical applications, you will start from some given tools (classes and algorithm) and use them inside your own code.\\
-As told during the lectures, understanding and re-using existing code is as important as being able to write something from scratch.
-
-\section{Maze generation}
-
-The \link{https://en.wikipedia.org/wiki/Maze_generation_algorithm}{Wikipedia page} on maze generation is quite complete
-and also proposes C-code that generates a perfect maze of a given (odd) dimension. A perfect maze is a maze where there is one and only 
-one path between any two cells.
-
-Create a \texttt{generator.cpp} file by copy/pasting the Wikipedia code and modify it so that:
-\begin{itemize}
- \item It compiles as C++.
- \item The final maze is not displayed on the console but instead it is saved to an image file 
- \item The executable takes a third argument, that is the percentage of walls that are randomly erased in order to build a non-perfect maze.
-\end{itemize}
-A good size is typically a few hundred pixels height / width. To debug the code, 51 x 101 gives a very readable maze.
-
-The \maze class (\Sec{mazeClass}) should be used to save the generated maze through its \texttt{Maze::dig} method that removes a wall at a given (x,y) position.
-It can also save a maze into an image file.
-
-
-\section{Maze solving}
-
-The given algorithm is described on \link{https://en.wikipedia.org/wiki/A*\_search\_algorithm\#Pseudocode}{Wikipedia}. It is basically a graph-search algorithm that
-finds the shortest path and uses a heuristic function in order to get some clues about the direction to be favored.
-
-In terms of implementation, the algorithm can deal with any \texttt{Node} class that has the following methods:
-\begin{itemize}
- \item \texttt{vector<unique\_ptr<Node>> Node::children()}: returns a \texttt{vector} of smart pointers\footnote{The use of smart pointers (here \texttt{unique\_ptr}) is detailed in \Sec{smart}} to the children (or neighboors) of the considered
- element
- \item \texttt{int distToParent()}: returns the distance to the node that generated this one
- \item \texttt{bool is(const Node \&other)}: returns true if the passed argument is actually the same point
- \item \texttt{double h(const Node \&goal)}: returns the heuristic distance to the passed argument
- \item \texttt{void show(bool closed, const Node \& parent)}: used for online display of the behavior
- \item \texttt{void print(const Node \& parent)}: used for final display
-\end{itemize}
-
-
-While these functions highly depend on the application, in our case we consider a 2D maze so some of these functions are already implemented in, as seen in \Sec{ptClass}:
-\begin{itemize}
- \item For the first exercice, only the \texttt{children} method is to write.
- \item The second one adds the \texttt{distToParent} method.
- \item The last one adds the \texttt{show} and \texttt{print} methods.
-\end{itemize}
-
-
-
-\subsection{A* with cell-based motions}
-
-The first A* will use cell-based motions, where the algorithm can only jump 1 cell from the current one.
-
-The file to modify is \texttt{solve\_cell.cpp}.
-At the top of the file is the definition of a \texttt{Position} class
-that inherits from \texttt{ecn::Point} in order not to reinvent the wheel (a point has two coordinates, it can compute the distance to
-another point, etc.).
-
-The only method to modify is \texttt{Position::children} that should generates the neighboors of the current point.
-The parent node is likely to be in those neighboors, but it will be removed by the algorithm. 
-
-\subsection{A* with line-based motions}
-
-Copy/paste the \texttt{solve\_cell.cpp} file to \texttt{solve\_line.cpp}.\\
-
-Here the children should be generated so that a straight corridor is directly followed (ie children can only be corners, intersections or dead-ends).
-A utility function \texttt{bool is\_corridor(int, int)} may be of good use.\\
-
-The distance to the parent may not be always 1 anymore. As we know the distance when we look for the neighboor nodes, a good thing would be to store it 
-at the generation by using a new Constructor with signature \texttt{Position(int \_x, int \_y, int distance)}.\\
-
-The existing \texttt{ecn::Point} class is already able to display lines between two non-adjacent points (as long as they are on the same horizontal or
-vertical line). The display should thus work directly.
-
-\subsection{A* with corridor-based motions}
-
-Copy/paste the \texttt{solve\_line.cpp} file to \texttt{solve\_corridor.cpp}.\\
-
-Here the children should be generated so that any corridor is directly followed (ie children can only be intersections or dead-ends, but
-not simple corners).
-A utility function \texttt{bool is\_corridor(int, int)} may be of good use.\\
-
-The distance to the parent may not be always 1 anymore. As we know the distance when we look for the neighboor nodes, a good thing would be to store it 
-at the generation by using a new Constructor with signature \texttt{Position(int \_x, int \_y, int distance)}. \\
-
-The existing \texttt{Point::show} and \texttt{Point::print} methods are not suited anymore for this problem. Indeed, the path from a point to its parent 
-may not be a straight line. Actually it will be necessary to re-search for the parent using the same approach as to generate the children.\\
-
-For this problem, remember that by construction the nodes can only be intersections or dead-ends. Still, the starting and goal positions may 
-be in the middle of a corridor. It is thus necessary to check if a candidate position is the goal even if it is not the end of a corridor.
-
-\section{Comparison}
-
-Compare the approaches using various maze sizes and wall percentage.
-If it is not the case, compile in \texttt{Release} instead of \texttt{Debug} and enjoy the speed improvement.\\
-
-The expected behavior is that mazes with lots of walls (almost perfect mazes) should be solved must faster with the corridor, then line, then cell-based approaches.\\
-With less and less walls, the line- and cell-based approaches should become faster as there are less and less corridors to follow.
-
-\appendix
-
-\section{Provided tools}
-
-\subsection{The \maze class}\label{mazeClass}
-
-This class interfaces with an image and allows easy reading / writing to the maze. 
-
-\paragraph{Methods for maze creation}
-\begin{itemize}
- \item \texttt{Maze(std::string filename)}: loads the maze from the image file
- \item \texttt{Maze(int height, int width)}: build a new maze of given dimensions, with only walls
- \item \texttt{dig(int x, int y)}: write a free cell at the given position
- \item \texttt{save()}: saves the maze to \texttt{maze.png} and displays it
-\end{itemize}
-
-\paragraph{Methods for maze access}
-\begin{itemize}
- \item \texttt{int height()}, \texttt{int width()}: maze dimensions
- \item \texttt{int isFree(int x, int y)}: returns true for a free cell, or false for a wall or invalid (out-of-grid) coordinates
-\end{itemize}
-
-\paragraph{Methods for maze display}
-\begin{itemize}
- \item \texttt{write(int x, int y, int r, int g, int b, bool show = true)}\\
-    will display the (x,y) with the (r,g,b) color and actually shows if asked
- \item \texttt{passThrough(int x, int y)}: write the final path, color will go automatically from blue to red. 
- Ordering is thus important when calling this function
- \item \texttt{saveSolution(std::string suffix)}: saves the final image
-\end{itemize}
-
-\subsection{The \texttt{ecn::Point} class}\label{ptClass}
-
-This class implements basic properties of a 2D point:
-
-\begin{itemize}
- \item \texttt{bool is(Point)}: returns true if both points have the same x and y coordinates
- \item \texttt{double h(const Point \&goal)}: heuristic distance, may use Manhattan
- ($|x-\texttt{goal}.x| + |y-\texttt{goal}.y|$) or classical Euclidean distance.
- \item \texttt{void show(bool closed, const Point \& parent)}: draws a straight line between the point and its parent, that
- is blue if the point is in the closed set or red if it is in the open set.
- \item \texttt{void print(const Point\& parent)}: writes the final path into the maze for display, also considers a straight line
-\end{itemize}
-All built classes should inherit from this class. The considered maze is available through the static member variable \texttt{ecn::maze} and can thus
-be accessed from the built member functions.
-
-\section{Pointers and smart pointers}\label{smart}
-
-During an A* algorithm, a lot of nodes are created, deleted and moved between the open and the closed set.
-This makes it necessary to create the nodes on the heap and manipulate only pointers. 
-In our case, new nodes are created in when calling the \texttt{children()} method, while they are deleted by the algorithm
-itself if needed. In order to avoid memory leaks, we will use smart pointers.\\
-
-Assuming that a new position can be created from its coordinates, a new position may be created with:
-\begin{itemize}
-\item \texttt{Position p(x, y);} for an actual position
- \item \texttt{Position* p = new Position(x, y);} for a raw pointer
- \item \texttt{std::unique\_ptr<Position> p(new Position(x, y);} for a unique ptr
-\end{itemize}
-
-As the \texttt{children()} method is supposed to return a \texttt{std::vector} of pointers, the corresponding syntax may be as follows:
-\begin{center}\cppstyle
-\begin{lstlisting}
-typedef std::unique_ptr<Position> PositionPtr;
-std::vector<PositionPtr> children()
-{
-    std::vector<PositionPtr> generated;
-    while(..)   // whatever method we use to look for children
-    {
-    
-        // assuming that we found a child at (x,y)
-        generated.push_back(std::make_unique<Position>(x,y)));
-    }
-    return generated;
-}
-\end{lstlisting}
+Then, a simple Proportional control is used to define the desired velocity of the point:
+\begin{center}
+$\dot \x_p^* = \dot \x_r + K_p(\x_r - \x_p)$
 \end{center}
-Here the generated children are directly put inside the vector, which is returned at the end. The smart pointer keeps track 
-of the allocated memory and the A* algorithm can decide to keep it or not, knowing that the memory will be managed accordlingly.
+The final control law is thus:
+\begin{center}
+$\u = \K^{-1}(\theta) .\left(\dot \x_r + K_p(\x_r - \x_p)\right)$
+\end{center}
+
+Implement this control and test it for various values of $d$ and $K_p$. Once acceptable values have been found:
+\begin{itemize}
+ \item What happens when there are calibration errors?
+ \item What happens when wheel rotation velocity is saturated?
+\end{itemize} 
+
+\subsection{Lyapunov-based control law}
+
+In this approach, the goal is to minimize an energy function that should be equal to 0 when and only when the robot is at the target position and orientation. For 2-0 robots, a classical one is:
+\def\W{\mathbf{W}}
+\begin{center}
+ $\W = \displaystyle \frac{1}{2}\left(x_e^2 + y_e^2 + \frac{\theta_e^2}{K_y}\right)$
+\end{center}
+where $(x_e, y_e, \theta_e)$ is the error in position and heading, corresponding to the target point expressed in the robot frame. They can be obtained easily from the reference values:
+\begin{center}
+ $\left\{\begin{array}{ll}
+  x_e &= \cos\theta.(x_r-x) + \sin\theta.(y_r-y) \\
+  y_e &= -\sin\theta.(x_r-x) + \cos\theta.(y_r-y) \\
+  \theta_e &= \text{atan2}(\dot y_r, \dot x_r) - \theta \quad  \text{(put back in } [-\pi, \pi]\text{)}
+\end{array}\right.$
+\end{center}
+A candidate control law is thus:
+\begin{center}
+ $\left\{\begin{array}{ll}
+          v &= v_r\cos\theta_e + K_x x_e \\
+          \omega &= \displaystyle\omega_r + K_y y_e v_r \frac{\sin\theta_e}{\theta_e} + K_\theta \theta_e
+         \end{array}\right.$
+\end{center}
+Where $v_r$ and $\omega_r$ are feedforward control inputs, that can be obtained by:
+\begin{center}
+ $\left\{\begin{array}{ll} 
+          v_r &= \dot x_r\cos\theta + \dot y_r \sin\theta \\
+          \omega_r &= \displaystyle\frac{\dot x_r \ddot y_r - \ddot x_r \dot y_r}{v_r^2}\quad  \text{(or 0 if } v_r = 0\text{)}
+         \end{array}\right.$
+\end{center}
+Show that this control makes $\W$ a Lyapunov function, meaning that its derivative is always negative except when the error is null.\\
+
+Implement this control and test it for various values of $(K_x, K_y, K_\theta)$. Once acceptable values have been found:
+\begin{itemize}
+ \item What happens when there are calibration errors?
+ \item What happens when wheel rotation velocity is saturated?
+\end{itemize} 
+
+\newpage
+
+\section{Bicycle-like 1-1 robot}
+
+The figure below recalls notations and kinematic model of a 1-1 mobile robot. Note that is also models classical cars as the two steering wheels angles are linked to a single, virtual centered wheel angle.
+
+\begin{figure}[ht]
+\begin{minipage}[t]{0.4\linewidth}
+\centering
+\includegraphics[%scale=1
+                 width=0.8\linewidth, valign=c]{model11}
+\end{minipage}%
+\begin{minipage}[t]{0.6\linewidth}
+{\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ll}
+ State & $(x, y, \theta, \beta)$ \\ 
+ Parameters  & (L, radius) \\
+ Control & $\u = (v, \dot \beta)$ \\
+ Kinematic model & 
+ $ \left\{\begin{array}{l}
+  \dot x = v \cos \theta\cos \beta \\
+  \dot y = v \sin \theta \cos \beta\\
+  \dot \theta =  v\sin\beta / L \\
+  \dot \beta =  u_2
+ \end{array} \right.$
+\end{tabular}}
+\end{minipage}
+\end{figure}
+
+In practice the control input $v$ is mapped to wheel velocity through the wheel radius. The corresponding values can be changed by double-clicking the \texttt{bicycle} subsystem as shown in the figure below. Uncertainty on these parameters is initially set to 0. The $L$ parameter is the distance between the origin of the robot (middle of rear axle) and the steering wheel.  \\
+
+Non-linearities appear in the 1-1 model when we consider wheel rotation velocity limit (limits $v$) and the wheel orientation limit in terms of $\beta$ and $\dot \beta$. These parameter can also be tuned in the subsystem, it is initially set to a high value in order to reduce its impact.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.4\linewidth]{param11}
+\caption{Parameters for the bicycle-like robot}
+\end{figure}
+
+\subsection{Static feedback}
+
+For static feedback, we want to control the position $\x_p = (x_p,y_p)$ of a point located at $d > 0$ in the direction of the steering wheel.
+It can be written as: 
+\begin{center}
+ $\left\{\begin{array}{ll}
+         x_p &= x + L.\cos\theta + d.\cos(\theta+\beta) \\
+         y_p &= x + L.\sin\theta  + d.\sin(\theta+\beta)
+        \end{array}\right.$
+\end{center}
+Follow the same approach as before to get the matrix $\K(\theta, \beta)$ such that: $\dot \x_p = \K(\theta, \beta).\u$.
+\\
+
+The same Proportional control can then be used to track the trajectory:
+\begin{center}
+$\u = \K^{-1}(\theta, \beta) .\left(\dot \x_r + K_p(\x_r - \x_p)\right)$
+\end{center}
+
+Implement this control and test it for various values of $d$ and $K_p$. Once acceptable values have been found:
+\begin{itemize}
+ \item What happens when there are calibration errors?
+ \item What happens when wheel rotation velocity or wheel orientation is saturated?
+\end{itemize} 
+
+\subsection{Lyapunov-based control law}
+
+The energy function in this case has the same form as in the 2-0 robot. It corresponds to the target position in the steering wheel frame, that can be written as:
+\begin{center}
+ $\left\{\begin{array}{ll}
+  x_e &= \cos\theta.(x_r-x-L\cos\theta) + \sin\theta.(y_r-y-L\sin\theta) \\
+  y_e &= -\sin\theta.(x_r-x-L\cos\theta) + \cos\theta.(y_r-y-L\sin\theta) \\
+  \theta_e &= \text{atan2}(\dot y_r, \dot x_r) - \theta - \beta \quad  \text{(put back in } [-\pi, \pi]\text{)}
+\end{array}\right.$
+\end{center}
+The control law is the same as before, but the $\omega$ component has to be mapped to the $\dot\beta$ control input with:
+\begin{center}
+ $\displaystyle \dot\beta = \omega - \frac{v}{L}\sin\beta$
+\end{center}
+Show that this control makes $\W$ a Lyapunov function.\\
+
+Implement this control and test it for various values of $(K_x, K_y, K_\theta)$. Once acceptable values have been found:
+\begin{itemize}
+ \item What happens when there are calibration errors?
+ \item What happens when wheel rotation velocity or wheel orientation is saturated?
+\end{itemize} 
+
+
+
 
 
 \end{document}

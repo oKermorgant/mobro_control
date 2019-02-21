@@ -1,6 +1,5 @@
 clear
 
-
 % Waypoints of the mobile robot
 xwp = [0.5 0.5 1.5 1.5 9 9 6 6 2];
 ywp = [1 9 9 1 1 9 9 4 4];
@@ -31,29 +30,28 @@ theta0 = atan2(ppval(fnder(sy,1), 0), ppval(fnder(sx,1), 0));
 [~, xddc, ~, ~, ~] = unmkpp(fnder(sx,2));
 [~, yddc, ~, ~, ~] = unmkpp(fnder(sy,2));
 
-t = sim('diff_drive_staticFB_sim',(t(end)*1.1));
+t = sim('bicycle_sim',(t(end)*1.1));
 
 close all
 figure(1)
-subplot(2,1,1)
 plot(xwp, ywp, 'o');
 hold on
 ax = gca;
 ax.ColorOrderIndex = 1;
 plot(xy_ref(:,1), xy_ref(:,2), xy(:,1), xy(:,2))
 legend('Waypoints', 'Desired', 'Actual')
+axis square
 
-% figure(2)
-subplot(2,2,3)
+ figure(2)
+subplot(2,1,1)
 plot(t, error)
 legend('x-error', 'y-error')
 xlabel('Time [s]')
 ylabel('Error [m]')
 
-% 
-% figure(3)
-subplot(2,2,4)
-plot(t, phi_dot)
-legend('left', 'right')
+
+subplot(2,1,2)
+plot(t, 180/pi*omega_beta)
+legend('velocity [deg/s]', 'orientation [deg]')
 xlabel('Time [s]')
-ylabel('Wheel velocity [rad/s]')
+ylabel('Wheel controls')
