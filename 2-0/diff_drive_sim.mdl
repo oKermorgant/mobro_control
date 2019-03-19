@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.197"
+    ComputedModelVersion    "1.205"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -16,13 +16,7 @@ Model {
     HasTerminateEvent	    0
     IsExportFunctionModel   0
     NumParameterArguments   0
-    NumExternalFileReferences 1
-    ExternalFileReference {
-      Reference		      "simulink/Sources/Ramp"
-      Path		      "diff_drive_sim/Trajectory/Ramp"
-      SID		      "160"
-      Type		      "LIBRARY_BLOCK"
-    }
+    NumExternalFileReferences 0
     OrderedModelArguments   1
   }
   DiagnosticSuppressor	  "on"
@@ -74,7 +68,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1882.0, 989.0]
 	ZoomFactor		[2.0]
-	Offset			[368.32500000000005, 14.225000000000023]
+	Offset			[357.625, -9.875]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -108,9 +102,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "olivier"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Mar 19 08:11:57 2019"
-  RTWModifiedTimeStamp	  474883917
-  ModelVersionFormat	  "1.%<AutoIncrement:197>"
+  LastModifiedDate	  "Tue Mar 19 11:06:05 2019"
+  RTWModifiedTimeStamp	  474894365
+  ModelVersionFormat	  "1.%<AutoIncrement:205>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "disabled"
@@ -1006,6 +1000,10 @@ Model {
       BusSelectionMode	      off
     }
     Block {
+      BlockType		      Derivative
+      CoefficientInTFapproximation "inf"
+    }
+    Block {
       BlockType		      Gain
       Gain		      "1"
       Multiplication	      "Element-wise(K.*u)"
@@ -1234,7 +1232,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "200"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "410"
+    SIDHighWatermark	    "425"
     Block {
       BlockType		      SubSystem
       Name		      "Lyapunov"
@@ -1465,7 +1463,7 @@ Model {
       ContentPreviewEnabled   on
       System {
 	Name			"Trajectory"
-	Location		[1920, 8, 3840, 1088]
+	Location		[0, 0, 1920, 1168]
 	Open			off
 	PortBlocksUseCompactNotation off
 	SetDomainSpec		off
@@ -1480,13 +1478,13 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"291"
+	ZoomFactor		"309"
 	Block {
 	  BlockType		  BusCreator
 	  Name			  "Bus\nCreator"
 	  SID			  "390"
 	  Ports			  [3, 1]
-	  Position		  [460, 61, 465, 139]
+	  Position		  [665, -134, 670, -56]
 	  ZOrder		  296
 	  ShowName		  off
 	  Inputs		  "3"
@@ -1496,361 +1494,62 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant"
-	  SID			  "175"
-	  Position		  [85, 5, 115, 35]
-	  ZOrder		  55
-	  Value			  "xc"
-	  VectorParams1D	  off
+	  SID			  "424"
+	  Position		  [215, -215, 245, -185]
+	  ZOrder		  309
+	  Value			  "0"
 	}
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant1"
-	  SID			  "176"
-	  Position		  [85, 40, 115, 70]
-	  ZOrder		  56
-	  Value			  "yc"
-	  VectorParams1D	  off
+	  SID			  "425"
+	  Position		  [215, -170, 245, -140]
+	  ZOrder		  310
+	  Value			  "0"
 	}
 	Block {
-	  BlockType		  Constant
-	  Name			  "Constant2"
-	  SID			  "177"
-	  Position		  [80, -30, 125, 0]
-	  ZOrder		  57
-	  Value			  "breaks"
-	  VectorParams1D	  off
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant3"
-	  SID			  "254"
-	  Position		  [85, 75, 115, 105]
-	  ZOrder		  291
-	  Value			  "xdc"
-	  VectorParams1D	  off
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant4"
-	  SID			  "255"
-	  Position		  [85, 110, 115, 140]
-	  ZOrder		  292
-	  Value			  "ydc"
-	  VectorParams1D	  off
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant5"
-	  SID			  "306"
-	  Position		  [85, 145, 115, 175]
-	  ZOrder		  294
-	  Value			  "xddc"
-	  VectorParams1D	  off
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant6"
-	  SID			  "307"
-	  Position		  [85, 180, 115, 210]
-	  ZOrder		  295
-	  Value			  "yddc"
-	  VectorParams1D	  off
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "MATLAB Function"
-	  SID			  "171"
-	  Ports			  [8, 3]
-	  Position		  [200, -77, 295, 222]
-	  ZOrder		  51
-	  ErrorFcn		  "Stateflow.Translate.translate"
-	  PermitHierarchicalResolution "ExplicitOnly"
-	  TreatAsAtomicUnit	  on
-	  RequestExecContextInheritance	off
-	  SFBlockType		  "MATLAB Function"
-	  ContentPreviewEnabled	  on
-	  System {
-	    Name		    "MATLAB Function"
-	    Location		    [223, 338, 826, 833]
-	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetDomainSpec	    off
-	    DomainSpecType	    "Deduce"
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    SIDHighWatermark	    "36"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "t"
-	      SID		      "171::1"
-	      Position		      [20, 101, 40, 119]
-	      ZOrder		      -1
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "breaks"
-	      SID		      "171::34"
-	      Position		      [20, 136, 40, 154]
-	      ZOrder		      25
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "xc"
-	      SID		      "171::32"
-	      Position		      [20, 171, 40, 189]
-	      ZOrder		      23
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "yc"
-	      SID		      "171::33"
-	      Position		      [20, 206, 40, 224]
-	      ZOrder		      24
-	      Port		      "4"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "xdc"
-	      SID		      "171::30"
-	      Position		      [20, 246, 40, 264]
-	      ZOrder		      21
-	      Port		      "5"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "ydc"
-	      SID		      "171::31"
-	      Position		      [20, 281, 40, 299]
-	      ZOrder		      22
-	      Port		      "6"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "xddc"
-	      SID		      "171::35"
-	      Position		      [20, 316, 40, 334]
-	      ZOrder		      26
-	      Port		      "7"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "yddc"
-	      SID		      "171::36"
-	      Position		      [20, 351, 40, 369]
-	      ZOrder		      27
-	      Port		      "8"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      " Demux "
-	      SID		      "171::20"
-	      Ports		      [1, 1]
-	      Position		      [270, 245, 320, 285]
-	      ZOrder		      11
-	      Outputs		      "1"
-	    }
-	    Block {
-	      BlockType		      S-Function
-	      Name		      " SFunction "
-	      SID		      "171::19"
-	      Tag		      "Stateflow S-Function diff_drive_sim 2"
-	      Ports		      [8, 4]
-	      Position		      [180, 115, 230, 295]
-	      ZOrder		      10
-	      FunctionName	      "sf_sfun"
-	      PortCounts	      "[8 4]"
-	      SFunctionDeploymentMode off
-	      EnableBusSupport	      on
-	      SFcnIsStateOwnerBlock   off
-	      Port {
-		PortNumber		2
-		Name			"xy_ref"
-	      }
-	      Port {
-		PortNumber		3
-		Name			"xy_ref_dot"
-	      }
-	      Port {
-		PortNumber		4
-		Name			"xy_ref_ddot"
-	      }
-	    }
-	    Block {
-	      BlockType		      Terminator
-	      Name		      " Terminator "
-	      SID		      "171::21"
-	      Position		      [460, 256, 480, 274]
-	      ZOrder		      12
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "xy_ref"
-	      SID		      "171::24"
-	      Position		      [460, 101, 480, 119]
-	      ZOrder		      15
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "xy_ref_dot"
-	      SID		      "171::5"
-	      Position		      [460, 136, 480, 154]
-	      ZOrder		      -5
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "xy_ref_ddot"
-	      SID		      "171::25"
-	      Position		      [460, 171, 480, 189]
-	      ZOrder		      16
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	    }
-	    Line {
-	      ZOrder		      292
-	      SrcBlock		      "t"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      1
-	    }
-	    Line {
-	      ZOrder		      293
-	      SrcBlock		      "breaks"
-	      SrcPort		      1
-	      Points		      [120, 0]
-	      DstBlock		      " SFunction "
-	      DstPort		      2
-	    }
-	    Line {
-	      ZOrder		      294
-	      SrcBlock		      "xc"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      3
-	    }
-	    Line {
-	      ZOrder		      295
-	      SrcBlock		      "yc"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      4
-	    }
-	    Line {
-	      ZOrder		      296
-	      SrcBlock		      "xdc"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      5
-	    }
-	    Line {
-	      ZOrder		      297
-	      SrcBlock		      "ydc"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      6
-	    }
-	    Line {
-	      ZOrder		      298
-	      SrcBlock		      "xddc"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      7
-	    }
-	    Line {
-	      ZOrder		      299
-	      SrcBlock		      "yddc"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      8
-	    }
-	    Line {
-	      Name		      "xy_ref"
-	      ZOrder		      300
-	      Labels		      [0, 0]
-	      SrcBlock		      " SFunction "
-	      SrcPort		      2
-	      DstBlock		      "xy_ref"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "xy_ref_dot"
-	      ZOrder		      301
-	      Labels		      [0, 0]
-	      SrcBlock		      " SFunction "
-	      SrcPort		      3
-	      DstBlock		      "xy_ref_dot"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "xy_ref_ddot"
-	      ZOrder		      302
-	      Labels		      [0, 0]
-	      SrcBlock		      " SFunction "
-	      SrcPort		      4
-	      DstBlock		      "xy_ref_ddot"
-	      DstPort		      1
-	    }
-	    Line {
-	      ZOrder		      303
-	      SrcBlock		      " Demux "
-	      SrcPort		      1
-	      DstBlock		      " Terminator "
-	      DstPort		      1
-	    }
-	    Line {
-	      ZOrder		      304
-	      SrcBlock		      " SFunction "
-	      SrcPort		      1
-	      DstBlock		      " Demux "
-	      DstPort		      1
-	    }
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "421"
+	  Position		  [365, -110, 395, -80]
+	  ZOrder		  307
+	  Port {
+	    PortNumber		    1
+	    Name		    "xy_ref_dot"
 	  }
 	}
 	Block {
-	  BlockType		  Reference
-	  Name			  "Ramp"
-	  SID			  "160"
-	  Ports			  [0, 1]
-	  Position		  [85, -65, 115, -35]
-	  ZOrder		  43
-	  LibraryVersion	  "1.444"
-	  SourceBlock		  "simulink/Sources/Ramp"
-	  SourceType		  "Ramp"
-	  SourceProductName	  "Simulink"
-	  SourceProductBaseCode	  "SL"
-	  ContentPreviewEnabled	  on
-	  slope			  "1"
-	  start			  "0"
-	  InitialOutput		  "0"
-	  VectorParams1D	  on
+	  BlockType		  Derivative
+	  Name			  "Derivative1"
+	  SID			  "422"
+	  Position		  [490, -45, 520, -15]
+	  ZOrder		  308
+	  Port {
+	    PortNumber		    1
+	    Name		    "xy_ref_ddot"
+	  }
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "418"
+	  Ports			  [2, 1]
+	  Position		  [305, -184, 310, -146]
+	  ZOrder		  304
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	  Port {
+	    PortNumber		    1
+	    Name		    "xy_ref"
+	  }
 	}
 	Block {
 	  BlockType		  ToWorkspace
 	  Name			  "To Workspace2"
 	  SID			  "193"
 	  Ports			  [1]
-	  Position		  [435, -25, 495, 5]
+	  Position		  [430, -200, 490, -170]
 	  ZOrder		  289
 	  VariableName		  "xy_ref"
 	  MaxDataPoints		  "inf"
@@ -1862,104 +1561,89 @@ Model {
 	  BlockType		  Outport
 	  Name			  "ref"
 	  SID			  "142"
-	  Position		  [515, 93, 545, 107]
+	  Position		  [720, -102, 750, -88]
 	  ZOrder		  -3
 	  IconDisplay		  "Port number"
-	}
-	Line {
-	  ZOrder		  50
-	  SrcBlock		  "Ramp"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  77
-	  SrcBlock		  "MATLAB Function"
-	  SrcPort		  1
-	  Points		  [104, 0; 0, 15]
-	  Branch {
-	    ZOrder		    95
-	    Points		    [0, 85]
-	    DstBlock		    "Bus\nCreator"
-	    DstPort		    1
-	  }
-	  Branch {
-	    ZOrder		    94
-	    DstBlock		    "To Workspace2"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  ZOrder		  66
-	  SrcBlock		  "Constant3"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  5
-	}
-	Line {
-	  ZOrder		  67
-	  SrcBlock		  "Constant4"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  6
-	}
-	Line {
-	  ZOrder		  74
-	  SrcBlock		  "Constant"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  3
-	}
-	Line {
-	  ZOrder		  75
-	  SrcBlock		  "Constant2"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  2
-	}
-	Line {
-	  ZOrder		  76
-	  SrcBlock		  "Constant1"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  4
-	}
-	Line {
-	  ZOrder		  82
-	  SrcBlock		  "Constant5"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  7
-	}
-	Line {
-	  ZOrder		  83
-	  SrcBlock		  "Constant6"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Function"
-	  DstPort		  8
-	}
-	Line {
-	  ZOrder		  96
-	  SrcBlock		  "MATLAB Function"
-	  SrcPort		  2
-	  Points		  [50, 0; 0, 25]
-	  DstBlock		  "Bus\nCreator"
-	  DstPort		  2
-	}
-	Line {
-	  ZOrder		  97
-	  SrcBlock		  "MATLAB Function"
-	  SrcPort		  3
-	  Points		  [78, 0; 0, -50]
-	  DstBlock		  "Bus\nCreator"
-	  DstPort		  3
 	}
 	Line {
 	  ZOrder		  98
 	  SrcBlock		  "Bus\nCreator"
 	  SrcPort		  1
 	  DstBlock		  "ref"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "xy_ref"
+	  ZOrder		  117
+	  Labels		  [0, 0]
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    ZOrder		    119
+	    Points		    [0, 70]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	  Branch {
+	    ZOrder		    118
+	    Points		    [65, 0]
+	    Branch {
+	      ZOrder		      122
+	      Points		      [0, 45]
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      1
+	    }
+	    Branch {
+	      ZOrder		      121
+	      Points		      [0, -20]
+	      DstBlock		      "To Workspace2"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  Name			  "xy_ref_dot"
+	  ZOrder		  120
+	  Labels		  [0, 0]
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  Points		  [54, 0]
+	  Branch {
+	    ZOrder		    124
+	    DstBlock		    "Bus\nCreator"
+	    DstPort		    2
+	  }
+	  Branch {
+	    ZOrder		    123
+	    Points		    [0, 65]
+	    DstBlock		    "Derivative1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  Name			  "xy_ref_ddot"
+	  ZOrder		  125
+	  Labels		  [0, 0]
+	  SrcBlock		  "Derivative1"
+	  SrcPort		  1
+	  Points		  [80, 0; 0, -40]
+	  DstBlock		  "Bus\nCreator"
+	  DstPort		  3
+	}
+	Line {
+	  ZOrder		  128
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  129
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, 25]
+	  DstBlock		  "Mux"
 	  DstPort		  1
 	}
       }
@@ -3343,7 +3027,7 @@ Stateflow {
     created		    "19-Feb-2019 16:14:06"
     isLibrary		    0
     sfVersion		    80000014
-    firstTarget		    38
+    firstTarget		    22
   }
   chart {
     id			    2
@@ -3573,23 +3257,23 @@ Stateflow {
   chart {
     id			    13
     machine		    1
-    name		    "Trajectory/MATLAB Function"
+    name		    "diff_drive/Direct Kinematics"
     windowPosition	    [422 539.941 189 413]
     viewLimits		    [0 156.75 0 153.75]
     screen		    [1 1 3600 1200 1.180555555555556]
     treeNode		    [0 14 0 0]
     viewObj		    13
-    ssIdHighWaterMark	    20
+    ssIdHighWaterMark	    10
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
-    chartFileNumber	    2
+    chartFileNumber	    4
     disableImplicitCasting  1
     eml {
-      name		      "reference"
+      name		      "dk"
     }
     firstData		    15
-    firstTransition	    27
-    firstJunction	    26
+    firstTransition	    20
+    firstJunction	    19
   }
   state {
     id			    14
@@ -3605,43 +3289,15 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function [xy_ref, xy_ref_dot, xy_ref_ddot] = reference(t, breaks, xc, yc, xdc, ydc, xddc, yddc)\n"
-      "\nsx = mkpp(breaks, xc);\nsy = mkpp(breaks, yc);\n\n\nif t > sx.breaks(end)\n    t = sx.breaks(end);\n    xy_ref"
-      "_dot = [0; 0];\n    xy_ref_ddot = [0; 0];\nelse\n    xy_ref_dot = [ppval(mkpp(breaks, xdc), t); ppval(mkpp(break"
-      "s, ydc), t)];\n    xy_ref_ddot = [ppval(mkpp(breaks, xddc), t); ppval(mkpp(breaks, yddc), t)];\nend\nxy_ref = [p"
-      "pval(sx, t); ppval(sy, t)];\n\n\n\n"
+      script		      "function v_omega = dk(phi_dot, base, radius)\n\nv_omega = [radius*(phi_dot(1)+phi_dot(2))/2; radi"
+      "us*(phi_dot(1)-phi_dot(2))/(2*base)];"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
   data {
     id			    15
-    ssIdNumber		    8
-    name		    "xy_ref"
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 0 16]
-  }
-  data {
-    id			    16
     ssIdNumber		    4
-    name		    "t"
+    name		    "phi_dot"
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -3658,12 +3314,35 @@ Stateflow {
       }
     }
     dataType		    "Inherit: Same as Simulink"
+    linkNode		    [13 0 16]
+  }
+  data {
+    id			    16
+    ssIdNumber		    5
+    name		    "v_omega"
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
     linkNode		    [13 15 17]
   }
   data {
     id			    17
-    ssIdNumber		    18
-    name		    "breaks"
+    ssIdNumber		    7
+    name		    "base"
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -3687,353 +3366,6 @@ Stateflow {
   }
   data {
     id			    18
-    ssIdNumber		    16
-    name		    "xc"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 17 19]
-  }
-  data {
-    id			    19
-    ssIdNumber		    17
-    name		    "yc"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 18 20]
-  }
-  data {
-    id			    20
-    ssIdNumber		    5
-    name		    "xy_ref_dot"
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 19 21]
-  }
-  data {
-    id			    21
-    ssIdNumber		    9
-    name		    "xy_ref_ddot"
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 20 22]
-  }
-  data {
-    id			    22
-    ssIdNumber		    14
-    name		    "xdc"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 21 23]
-  }
-  data {
-    id			    23
-    ssIdNumber		    15
-    name		    "ydc"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 22 24]
-  }
-  data {
-    id			    24
-    ssIdNumber		    19
-    name		    "xddc"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 23 25]
-  }
-  data {
-    id			    25
-    ssIdNumber		    20
-    name		    "yddc"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [13 24 0]
-  }
-  junction {
-    id			    26
-    position		    [23.5747 49.5747 7]
-    chart		    13
-    subviewer		    13
-    ssIdNumber		    3
-    type		    CONNECTIVE_JUNCTION
-    linkNode		    [13 0 0]
-  }
-  transition {
-    id			    27
-    labelString		    "{eML_blk_kernel();}"
-    labelPosition	    [28.125 13.875 102.544 14.964]
-    fontSize		    12
-    src {
-      intersection	      [0 0 1 0 23.5747 14.625 0 0]
-    }
-    dst {
-      id		      26
-      intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
-    }
-    midPoint		    [23.5747 24.9468]
-    chart		    13
-    dataLimits		    [21.175 25.975 14.625 42.575]
-    subviewer		    13
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    2
-    linkNode		    [13 0 0]
-  }
-  instance {
-    id			    28
-    machine		    1
-    name		    "Trajectory/MATLAB Function"
-    chart		    13
-  }
-  chart {
-    id			    29
-    machine		    1
-    name		    "diff_drive/Direct Kinematics"
-    windowPosition	    [422 539.941 189 413]
-    viewLimits		    [0 156.75 0 153.75]
-    screen		    [1 1 3600 1200 1.180555555555556]
-    treeNode		    [0 30 0 0]
-    viewObj		    29
-    ssIdHighWaterMark	    10
-    decomposition	    CLUSTER_CHART
-    type		    EML_CHART
-    chartFileNumber	    4
-    disableImplicitCasting  1
-    eml {
-      name		      "dk"
-    }
-    firstData		    31
-    firstTransition	    36
-    firstJunction	    35
-  }
-  state {
-    id			    30
-    labelString		    "eML_blk_kernel()"
-    position		    [18 64.5 118 66]
-    fontSize		    12
-    chart		    29
-    treeNode		    [29 0 0 0]
-    superState		    SUBCHART
-    subviewer		    29
-    ssIdNumber		    1
-    type		    FUNC_STATE
-    decomposition	    CLUSTER_STATE
-    eml {
-      isEML		      1
-      script		      "function v_omega = dk(phi_dot, base, radius)\n\nv_omega = [radius*(phi_dot(1)+phi_dot(2))/2; radi"
-      "us*(phi_dot(1)-phi_dot(2))/(2*base)];"
-      editorLayout	      "100 M4x1[10 5 700 500]"
-    }
-  }
-  data {
-    id			    31
-    ssIdNumber		    4
-    name		    "phi_dot"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [29 0 32]
-  }
-  data {
-    id			    32
-    ssIdNumber		    5
-    name		    "v_omega"
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [29 31 33]
-  }
-  data {
-    id			    33
-    ssIdNumber		    7
-    name		    "base"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [29 32 34]
-  }
-  data {
-    id			    34
     ssIdNumber		    8
     name		    "radius"
     scope		    INPUT_DATA
@@ -4055,19 +3387,19 @@ Stateflow {
       }
     }
     dataType		    "Inherit: Same as Simulink"
-    linkNode		    [29 33 0]
+    linkNode		    [13 17 0]
   }
   junction {
-    id			    35
+    id			    19
     position		    [23.5747 49.5747 7]
-    chart		    29
-    subviewer		    29
+    chart		    13
+    subviewer		    13
     ssIdNumber		    3
     type		    CONNECTIVE_JUNCTION
-    linkNode		    [29 0 0]
+    linkNode		    [13 0 0]
   }
   transition {
-    id			    36
+    id			    20
     labelString		    "{eML_blk_kernel();}"
     labelPosition	    [28.125 13.875 102.544 14.964]
     fontSize		    12
@@ -4075,29 +3407,29 @@ Stateflow {
       intersection	      [0 0 1 0 23.5747 14.625 0 0]
     }
     dst {
-      id		      35
+      id		      19
       intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
     }
     midPoint		    [23.5747 24.9468]
-    chart		    29
+    chart		    13
     dataLimits		    [21.175 25.975 14.625 42.575]
-    subviewer		    29
+    subviewer		    13
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
     }
     executionOrder	    1
     ssIdNumber		    2
-    linkNode		    [29 0 0]
+    linkNode		    [13 0 0]
   }
   instance {
-    id			    37
+    id			    21
     machine		    1
     name		    "diff_drive/Direct Kinematics"
-    chart		    29
+    chart		    13
   }
   target {
-    id			    38
+    id			    22
     machine		    1
     name		    "sfun"
     description		    "Default Simulink S-Function Target."

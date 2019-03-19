@@ -123,7 +123,7 @@ It can be written as:
 \begin{center}
  $\left\{\begin{array}{ll}
          x_p &= x + d.\cos\theta \\
-         y_p &= x + d.\sin\theta 
+         y_p &= y + d.\sin\theta 
         \end{array}\right.$
 \end{center}
 The first step is to link $\dot \x_p$ to the control input: $\dot \x_p = \K(\theta).\u$.
@@ -227,7 +227,7 @@ It can be written as:
 \begin{center}
  $\left\{\begin{array}{ll}
          x_p &= x + L.\cos\theta + d.\cos(\theta+\beta) \\
-         y_p &= x + L.\sin\theta  + d.\sin(\theta+\beta)
+         y_p &= y + L.\sin\theta  + d.\sin(\theta+\beta)
         \end{array}\right.$
 \end{center}
 Follow the same approach as before to get the matrix $\K(\theta, \beta)$ such that: $\dot \x_p = \K(\theta, \beta).\u$.
