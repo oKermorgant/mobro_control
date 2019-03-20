@@ -1,12 +1,12 @@
 Model {
-  Name			  "bicycle_sim"
+  Name			  "bicycle_sim18a"
   Version		  9.1
   SavedCharacterEncoding  "UTF-8"
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.228"
+    ComputedModelVersion    "1.232"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -19,13 +19,13 @@ Model {
     NumExternalFileReferences 2
     ExternalFileReference {
       Reference		      "simulink_extras/Transformations/Degrees to\nRadians"
-      Path		      "bicycle_sim/bicycle/Degrees to Radians"
+      Path		      "bicycle_sim18a/bicycle/Degrees to Radians"
       SID		      "435"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink_extras/Transformations/Degrees to\nRadians"
-      Path		      "bicycle_sim/bicycle/Degrees to Radians1"
+      Path		      "bicycle_sim18a/bicycle/Degrees to Radians1"
       SID		      "436"
       Type		      "LIBRARY_BLOCK"
     }
@@ -78,7 +78,7 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1882.0, 989.0]
+	Extents			[1882.0, 984.0]
 	ZoomFactor		[1.25]
 	Offset			[101.20000000000005, 18.5]
       }
@@ -114,9 +114,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "olivier"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Mar 20 15:07:02 2019"
-  RTWModifiedTimeStamp	  474995222
-  ModelVersionFormat	  "1.%<AutoIncrement:228>"
+  LastModifiedDate	  "Wed Mar 20 15:38:44 2019"
+  RTWModifiedTimeStamp	  474997124
+  ModelVersionFormat	  "1.%<AutoIncrement:232>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "disabled"
@@ -172,12 +172,12 @@ Model {
     $PropName		    "DataLoggingOverride"
     $ObjectID		    7
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
-    model_		    "bicycle_sim"
+    model_		    "bicycle_sim18a"
     overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
       Dimension		      1
-      Cell		      "bicycle_sim"
+      Cell		      "bicycle_sim18a"
       PropName		      "logAsSpecifiedByModels_"
     }
     Array {
@@ -1186,7 +1186,7 @@ Model {
     }
   }
   System {
-    Name		    "bicycle_sim"
+    Name		    "bicycle_sim18a"
     Location		    [0, 0, 1920, 1168]
     Open		    off
     PortBlocksUseCompactNotation off
@@ -1247,7 +1247,7 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"175"
+	ZoomFactor		"400"
 	Block {
 	  BlockType		  Inport
 	  Name			  "ref"
@@ -1273,19 +1273,19 @@ Model {
 	  Position		  [-335, -503, -330, -417]
 	  ZOrder		  359
 	  ShowName		  off
-	  OutputSignals		  "xy,xy_dot,xy_ddot"
+	  OutputSignals		  "xy_ref,xy_ref_dot,xy_ref_ddot"
 	  OutputAsBus		  off
 	  Port {
 	    PortNumber		    1
-	    Name		    "<xy>"
+	    Name		    "<xy_ref>"
 	  }
 	  Port {
 	    PortNumber		    2
-	    Name		    "<xy_dot>"
+	    Name		    "<xy_ref_dot>"
 	  }
 	  Port {
 	    PortNumber		    3
-	    Name		    "<xy_ddot>"
+	    Name		    "<xy_ref_ddot>"
 	  }
 	}
 	Block {
@@ -1323,21 +1323,21 @@ Model {
 	  BlockType		  Terminator
 	  Name			  "Terminator"
 	  SID			  "453"
-	  Position		  [-285, -500, -265, -480]
+	  Position		  [-165, -500, -145, -480]
 	  ZOrder		  366
 	}
 	Block {
 	  BlockType		  Terminator
 	  Name			  "Terminator1"
 	  SID			  "454"
-	  Position		  [-285, -470, -265, -450]
+	  Position		  [-165, -470, -145, -450]
 	  ZOrder		  367
 	}
 	Block {
 	  BlockType		  Terminator
 	  Name			  "Terminator2"
 	  SID			  "455"
-	  Position		  [-285, -440, -265, -420]
+	  Position		  [-165, -440, -145, -420]
 	  ZOrder		  368
 	}
 	Block {
@@ -1384,8 +1384,8 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "<xy>"
-	  ZOrder		  57
+	  Name			  "<xy_ref>"
+	  ZOrder		  67
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector"
 	  SrcPort		  1
@@ -1393,8 +1393,8 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "<xy_dot>"
-	  ZOrder		  58
+	  Name			  "<xy_ref_dot>"
+	  ZOrder		  68
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector"
 	  SrcPort		  2
@@ -1402,8 +1402,8 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "<xy_ddot>"
-	  ZOrder		  59
+	  Name			  "<xy_ref_ddot>"
+	  ZOrder		  69
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector"
 	  SrcPort		  3
@@ -1484,7 +1484,7 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"300"
+	ZoomFactor		"175"
 	Block {
 	  BlockType		  BusCreator
 	  Name			  "Bus\nCreator"
@@ -2048,7 +2048,7 @@ Model {
 	      BlockType		      S-Function
 	      Name		      " SFunction "
 	      SID		      "410::19"
-	      Tag		      "Stateflow S-Function bicycle_sim 1"
+	      Tag		      "Stateflow S-Function bicycle_sim18a 1"
 	      Ports		      [10, 6]
 	      Position		      [180, 110, 230, 330]
 	      ZOrder		      10
@@ -2661,15 +2661,15 @@ Model {
 	  Position		  [-240, -204, -235, -166]
 	  ZOrder		  319
 	  ShowName		  off
-	  OutputSignals		  "xy,xy_dot"
+	  OutputSignals		  "xy_ref,xy_ref_dot"
 	  OutputAsBus		  off
 	  Port {
 	    PortNumber		    1
-	    Name		    "<xy>"
+	    Name		    "<xy_ref>"
 	  }
 	  Port {
 	    PortNumber		    2
-	    Name		    "<xy_dot>"
+	    Name		    "<xy_ref_dot>"
 	  }
 	}
 	Block {
@@ -2735,7 +2735,7 @@ Model {
 	  BlockType		  Terminator
 	  Name			  "Terminator3"
 	  SID			  "451"
-	  Position		  [-210, -185, -190, -165]
+	  Position		  [-170, -185, -150, -165]
 	  ZOrder		  364
 	}
 	Block {
@@ -2781,7 +2781,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "<xy>"
+	  Name			  "<xy_ref>"
 	  ZOrder		  71
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector"
@@ -2819,7 +2819,7 @@ Model {
 	  DstPort		  2
 	}
 	Line {
-	  Name			  "<xy_dot>"
+	  Name			  "<xy_ref_dot>"
 	  ZOrder		  103
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector"
@@ -2933,7 +2933,7 @@ Model {
 Stateflow {
   machine {
     id			    1
-    name		    "bicycle_sim"
+    name		    "bicycle_sim18a"
     created		    "19-Feb-2019 16:14:06"
     isLibrary		    0
     sfVersion		    80000014

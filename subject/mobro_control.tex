@@ -32,7 +32,7 @@ In addition, robustness of the control will be analyzed with regards to several 
 \end{itemize}
 
 The control laws will be tested in simulation with Matlab/Simulink.\\
-Trajectory generation is given and we assume a localization method is here and provides the current posture $(x,y,\theta)$  of the robot. 
+Trajectory generation is partially given and we assume a localization method is here and provides the current posture $(x,y,\theta)$  of the robot. 
 
 \section{Available tools}
 
@@ -46,16 +46,13 @@ Each folder contains a Matlab script file and a Simulink model. The figure below
 
 Five main blocks appear:
 \begin{itemize}
- \item \texttt{Trajectory}: Generates the trajectory. The \texttt{ref} output is a structure containing the desired position \texttt{xy}, desired velocity \texttt{xy\_dot} and desired acceleration \texttt{xy\_ddot}.
+ \item \texttt{Trajectory}: Generates the trajectory. The \texttt{ref} output is a structure containing the desired position, velocity and acceleration.
  \item \texttt{diff\_drive}: The model of the robot, takes the control inputs and updates the state of the robot.
- \item \texttt{static FeedBack}: Control block for static feedback, takes the reference and state and output the command.
- \item \texttt{Lyapunov}: Control block for Lyapunov control, takes the reference and state and output the command.
- \item \texttt{Control law switch}: Allows to use static feedback or Lyapunov control depending on the control choice.
+ \item \texttt{static FeedBack} / \texttt{Lyapunov}: Control blocks, take the reference and state and output the command.
+ \item \texttt{Control law switch}: Allows to choose control depending on the value (1 or 2).
 \end{itemize}
 
-The given script will generate a trajectory from waypoints, then run the simulation and plot the behavior of the robot.
-
-The parts to be modified are:
+The given script will generate a trajectory from waypoints, then run the simulation and plot the behavior of the robot. The parts to be modified are:
 \begin{itemize}
  \item The content of the two control blocks
  \item The parameters of the robot model, including saturation and uncertainty
@@ -77,6 +74,16 @@ Signals going through the reference and state should be decomposed by using a \t
 \includegraphics[height=0.4\linewidth, valign=c]{state11} \\ \footnotesize 1-1 robot state to $(x,y,\theta,\beta)$
 \end{minipage}
 \end{figure}
+
+\paragraph{Trajectory generation} Initially the trajectory is always $(0,0)$ as shown in the next figure.
+\begin{center}
+ \includegraphics[width=.6\linewidth]{traj}
+\end{center}
+Two parameters $a$ and $w$ are defined in the initial script. They should be used to generate a circular trajectory:
+\begin{center}
+ $\left\{\begin{array}{ll}
+          x(t) &= a\cos wt \\ y(t) &= a\sin wt \end{array}\right.$
+\end{center}This trajectory will be followed during $t_{\max} = 2\pi/w$ which correspond to doing 3 turns.
 
 \newpage
 
